@@ -1,0 +1,6 @@
+<!--index.ejs-->
+<table class="table">
+    <% receipts.forEach( function(model) { %>
+        <tr><td><%=model.id%></td><tr><td><%=model.token%></td><td><img src="<%=model.QrCode%>"><img></td></tr>
+    <% }); %>
+</table>
