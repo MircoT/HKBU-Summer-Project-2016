@@ -17,6 +17,18 @@ module.exports = {
     token: {
       type: 'string'
     },
+    origin_shop: {
+      type: 'string'
+    },
+    target_shop: {
+      type: 'string'
+    },
+    activated: {
+      type: 'boolean'
+    },
+    redeemed: {
+      type: 'boolean'
+    }
   }
 };
 
