@@ -27,13 +27,32 @@ angular.module('starter', ['ionic', 'ngCordova'])
   '$scope',
   '$cordovaBarcodeScanner',
   function($scope, $cordovaBarcodeScanner) {
+
+    function readToken(string) {
+      var tmp = string.split(".");
+      var uHeader = b64utos(tmp[0]);
+      var uClaim = b64utos(tmp[1]);
+
+      var pHeader = KJUR.jws.JWS.readSafeJSONString(uHeader);
+      var pClaim = KJUR.jws.JWS.readSafeJSONString(uClaim);
+
+      var sHeader = JSON.stringify(pHeader, null, "  ");
+      var sClaim = JSON.stringify(pClaim, null, "  ");
+
+      console.log(pHeader, sHeader);
+      console.log(pClaim, sClaim);
+
+      return sClaim;
+    }
+
     $scope.scanReceipt = function() {
+
       $cordovaBarcodeScanner
         .scan()
         .then(function(barcodeData) {
           // Success! Barcode data is here
           console.log(barcodeData);
-          document.getElementById('result').innerText = barcodeData.text;
+          document.getElementById('result').innerText = readToken(barcodeData.text);
         }, function(error) {
           // An error occurred
         });
