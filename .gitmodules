@@ -1,0 +1,3 @@
+[submodule "idiscount_service"]
+	path = idiscount_service
+	url = https://github.com/MircoT/idiscount_service
