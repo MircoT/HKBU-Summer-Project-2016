@@ -42,10 +42,10 @@
             <span class="item-note">
               received in {{ data.origin_shop }}
             </span>
-            <button ng-hide="data.activated" class="button button-positive">
+            <button ng-hide="data.activated" class="button button-positive" ng-click="activate(data.token)">
               <i class="icon ion-bag"></i>
             </button>
-            <button ng-hide="!data.activated" class="button button-positive">
+            <button ng-hide="!data.activated" class="button button-positive" ng-click="redeem(data.token)">
               <i class="icon ion-cash"></i>
             </button>
           </div>

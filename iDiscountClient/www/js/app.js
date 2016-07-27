@@ -29,17 +29,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
 })
 
 .controller('mainCtrl', [
+  '$rootScope',
   '$scope',
+  '$ionicPlatform',
+  '$ionicPopup',
   '$cordovaBarcodeScanner',
+  '$cordovaBeacon',
   'localStorageService',
-  function($scope, $cordovaBarcodeScanner, localStorageService) {
+  function(
+    $rootScope,
+    $scope,
+    $ionicPlatform,
+    $ionicPopup,
+    $cordovaBarcodeScanner, 
+    $cordovaBeacon,
+    localStorageService) {
 
-    // if (localStorageService.get('list') === null) {
-    //   localStorageService.set('list', []);
-    // }
+    if (localStorageService.get('list') === null) {
+      localStorageService.set('list', []);
+    }
 
-    localStorageService.set('list', []);  // DEBUG
+    // localStorageService.set('list', []);  // DEBUG
     $scope.unbindList = localStorageService.bind($scope, 'list');
+
+    var beacon_region = null;
     
     function readToken(string) {
       var tmp = string.split(".");
@@ -72,19 +85,67 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
         .scan()
         .then(function(barcodeData) {
           // Success! Barcode data is here
-          console.log(barcodeData);
+          try {
+            var data = readToken(barcodeData.text);
+            data.token = barcodeData.text;
+            data.activated = false;
+            data.redeemed = false;
 
-          var data = readToken(barcodeData.text);
-          data.token = barcodeData.text;
-          data.activated = false;
-          data.redeemed = false;
+            if (!searchDiscount(data.number)) $scope.list.push(data);
 
-          if (!searchDiscount(data.number)) $scope.list.push(data);
-
-          console.log($scope.list)
+            console.log($scope.list)
+          }
+          catch(err) {
+            $ionicPopup.alert({
+              title: '<i class="icon ion-alert-circled"></i> Attention!',
+              template: 'Try to scan again the QrCode...'
+            });
+          }
+          
         }, function(error) {
-          // An error occurred
+          $ionicPopup.alert({
+            title: '<i class="icon ion-alert-circled"></i> Attention!',
+            template: 'Try to scan again the QrCode...'
+          });
         });
     };
+
+    function getNearestBeacon() {
+      $ionicPlatform.ready(function() {
+        if (beacon_region === null) {
+          beacon_region = $cordovaBeacon.createBeaconRegion(
+            'macaron', 'e031cced-1ce9-42c6-a936-83c78157d268',
+            null, null, false);
+        }
+
+        if (ionic.Platform.isIOS()) $cordovaBeacon.requestAlwaysAuthorization();
+
+        $cordovaBeacon.isBluetoothEnabled().then(function(bluetoothActivated) {
+          if (bluetoothActivated) {
+            $cordovaBeacon.startRangingBeaconsInRegion(beacon_region).then(function(result) {
+              console.log(result);
+            });
+          }
+          else {
+            $ionicPopup.alert({
+              title: '<i class="icon ion-alert-circled"></i> Attention!',
+              template: 'Please enable bluetooth...'
+            });
+          }
+        });
+      })
+    }
+
+    $scope.activate = function(token) {
+      var beacon = getNearestBeacon();
+    };
+
+    $scope.redeem = function(token) {
+      var beacon = getNearestBeacon();
+    };
+
+    $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function (event, pluginResult) {
+      console.log(JSON.stringify(pluginResult));
+    });
   }
 ]);
