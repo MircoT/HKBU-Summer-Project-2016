@@ -3,7 +3,12 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova'])
+angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
+
+.config(function(localStorageServiceProvider) {
+  localStorageServiceProvider
+    .setPrefix('iDiscount');
+})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -26,8 +31,16 @@ angular.module('starter', ['ionic', 'ngCordova'])
 .controller('mainCtrl', [
   '$scope',
   '$cordovaBarcodeScanner',
-  function($scope, $cordovaBarcodeScanner) {
+  'localStorageService',
+  function($scope, $cordovaBarcodeScanner, localStorageService) {
 
+    // if (localStorageService.get('list') === null) {
+    //   localStorageService.set('list', []);
+    // }
+
+    localStorageService.set('list', []);  // DEBUG
+    $scope.unbindList = localStorageService.bind($scope, 'list');
+    
     function readToken(string) {
       var tmp = string.split(".");
       var uHeader = b64utos(tmp[0]);
@@ -42,7 +55,15 @@ angular.module('starter', ['ionic', 'ngCordova'])
       console.log(pHeader, sHeader);
       console.log(pClaim, sClaim);
 
-      return sClaim;
+      return pClaim;
+    }
+
+    function searchDiscount(number) {
+      var found = false;
+      $scope.list.forEach(function(discount) {
+        found = found || discount.number === number;
+      });
+      return found;
     }
 
     $scope.scanReceipt = function() {
@@ -52,7 +73,15 @@ angular.module('starter', ['ionic', 'ngCordova'])
         .then(function(barcodeData) {
           // Success! Barcode data is here
           console.log(barcodeData);
-          document.getElementById('result').innerText = readToken(barcodeData.text);
+
+          var data = readToken(barcodeData.text);
+          data.token = barcodeData.text;
+          data.activated = false;
+          data.redeemed = false;
+
+          if (!searchDiscount(data.number)) $scope.list.push(data);
+
+          console.log($scope.list)
         }, function(error) {
           // An error occurred
         });

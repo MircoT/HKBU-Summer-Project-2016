@@ -18,6 +18,9 @@
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+    <!-- localstorage -->
+    <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
     <!-- cordova script (this will be a 404 during development) -->
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
@@ -32,7 +35,20 @@
         <h1 class="title">Discounts</h1>
       </ion-header-bar>
       <ion-content>
-        <div id="result">
+        <div class="list">
+          <div ng-repeat="data in list track by data.number" class="item item-button-right">
+            <i class="icon ion-ios-pricetags-outline"></i> 
+            {{ data.discount}}% discount in {{ data.target_shop }}
+            <span class="item-note">
+              received in {{ data.origin_shop }}
+            </span>
+            <button ng-hide="data.activated" class="button button-positive">
+              <i class="icon ion-bag"></i>
+            </button>
+            <button ng-hide="!data.activated" class="button button-positive">
+              <i class="icon ion-cash"></i>
+            </button>
+          </div>
         </div>
       </ion-content>
       <div class="bar bar-footer">
