@@ -37,17 +37,16 @@
       <ion-content>
         <div class="list">
           <div ng-repeat="data in list track by data.number" class="item item-button-right"
-            on-swipe-left="wantToDelete(data)"
-            on-swipe-right="notWantToDelete(data)">
+            on-hold="wantToDelete(data)">
               <i class="icon ion-ios-pricetags-outline"></i> 
-              {{ data.discount}}% discount in {{ data.target_shop }}
+              <span id='discount-amount'>{{ data.discount}}%</span> discount in {{ data.target_shop }}
               <span class="item-note">
                 received in {{ data.origin_shop }}
               </span>
-              <button ng-hide="data.activated || data.deleteMe" class="button button-positive" ng-click="activate(data.token)">
+              <button ng-hide="data.activated || data.deleteMe" class="button button-positive" ng-click="activate(data)">
                 <i class="icon ion-bag"></i>
               </button>
-              <button ng-hide="!data.activated || data.deleteMe" class="button button-positive" ng-click="redeem(data.token)">
+              <button ng-hide="!data.activated || data.deleteMe" class="button button-positive" ng-click="redeem(data)">
                 <i class="icon ion-cash"></i>
               </button>
               <button ng-hide="!data.deleteMe" class="button button-assertive" ng-click="delete(data)">
