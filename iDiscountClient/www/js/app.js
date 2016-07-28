@@ -31,6 +31,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
 .controller('mainCtrl', [
   '$rootScope',
   '$scope',
+  '$http',
   '$ionicPlatform',
   '$ionicPopup',
   '$cordovaBarcodeScanner',
@@ -39,6 +40,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
   function(
     $rootScope,
     $scope,
+    $http,
     $ionicPlatform,
     $ionicPopup,
     $cordovaBarcodeScanner, 
@@ -49,18 +51,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
       localStorageService.set('list', []);
     }
 
-    localStorageService.set('list', [{
-      number: 123,
-      token: "sadasdasdasdas",
-      origin_shop: "shop_1",
-      target_shop: "shop_2"
-    },
-    {
-      number: 1234,
-      token: "sadasdasdasdas",
-      origin_shop: "shop_1",
-      target_shop: "shop_2"
-    }]);  // DEBUG
+    // localStorageService.set('list', []);  // DEBUG
     $scope.unbindList = localStorageService.bind($scope, 'list');
 
     var beacon_region = null;
