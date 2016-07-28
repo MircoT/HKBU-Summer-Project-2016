@@ -49,7 +49,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
       localStorageService.set('list', []);
     }
 
-    // localStorageService.set('list', []);  // DEBUG
+    localStorageService.set('list', [{
+      number: 123,
+      token: "sadasdasdasdas",
+      origin_shop: "shop_1",
+      target_shop: "shop_2"
+    },
+    {
+      number: 1234,
+      token: "sadasdasdasdas",
+      origin_shop: "shop_1",
+      target_shop: "shop_2"
+    }]);  // DEBUG
     $scope.unbindList = localStorageService.bind($scope, 'list');
 
     var beacon_region = null;
@@ -90,6 +101,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
             data.token = barcodeData.text;
             data.activated = false;
             data.redeemed = false;
+            data.deleteMe = false;
 
             if (!searchDiscount(data.number)) $scope.list.push(data);
 
@@ -147,5 +159,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
     $rootScope.$on("$cordovaBeacon:didRangeBeaconsInRegion", function (event, pluginResult) {
       console.log(JSON.stringify(pluginResult));
     });
+
+    $scope.wantToDelete = function(data) {
+      data.deleteMe = true;
+    };
+
+    $scope.notWantToDelete = function(data) {
+      data.deleteMe = false;
+    };
+
+    $scope.delete = function(data) {
+      $scope.list = $scope.list.reduce(function(newList, curObj) {
+        if (curObj.number !== data.number) {
+          newList.push(curObj);
+        }
+        return newList;
+      }, []);
+    };
   }
 ]);
