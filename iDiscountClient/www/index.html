@@ -65,4 +65,15 @@
       </div>
     </ion-pane>
   </body>
+  <script id="show-qrcode.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="closeQrCodeModal()">Back</a>
+      <h1 class="title">Discount QrCode</h1>
+    </ion-header-bar>
+    <ion-pane>
+      <img id="QrCodeImg" src="{{ QrCodeData }}"></img>
+    </ion-pane>
+  </ion-modal-view>
+</script>
 </html>
