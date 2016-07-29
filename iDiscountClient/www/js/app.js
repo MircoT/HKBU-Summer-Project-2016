@@ -112,7 +112,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
     $scope.scanReceipt = function() {
 
       $cordovaBarcodeScanner
-        .scan()
+        .scan({
+            "preferFrontCamera" : true, // iOS and Android
+            "showFlipCameraButton" : true, // iOS and Android
+            "prompt" : "Place the QrCode inside the scan area", // supported on Android only
+            "formats" : "QR_CODE", // default: all but PDF_417 and RSS_EXPANDED
+            "orientation" : "portrait" // Android only (portrait|landscape), default unset so it rotates with the device
+        })
         .then(function(barcodeData) {
           // Success! Barcode data is here
           try {
