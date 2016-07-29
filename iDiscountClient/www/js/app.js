@@ -113,7 +113,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
 
       $cordovaBarcodeScanner
         .scan({
-            "preferFrontCamera" : true, // iOS and Android
+            "preferFrontCamera" : false, // iOS and Android
             "showFlipCameraButton" : true, // iOS and Android
             "prompt" : "Place the QrCode inside the scan area", // supported on Android only
             "formats" : "QR_CODE", // default: all but PDF_417 and RSS_EXPANDED
