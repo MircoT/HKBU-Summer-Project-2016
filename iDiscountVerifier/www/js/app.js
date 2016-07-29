@@ -48,25 +48,30 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
     localStorageService) 
   {
 
-    $scope.uuid = "";
+    $scope.device = {
+      uuid: ""
+    }
 
     if (localStorageService.get('verifier') === null) {
       localStorageService.set('verifier', { activated: false, code: "", token: ""});
     }
 
-    // DEBUG
-    localStorageService.set('verifier', { activated: false, code: "", token: ""});
-
     $scope.unbindVerifier = localStorageService.bind($scope, 'verifier');
 
+    $scope.reset = function() {
+      $scope.verifier = { activated: false, code: "", token: ""};
+      $scope.$apply();
+    };    
+
     $ionicPlatform.ready(function() {
-      $scope.uuid = $cordovaDevice.getUUID();
+      $scope.device.uuid = $cordovaDevice.getUUID();
+      $scope.$apply();
     });
     
     $scope.activateDevice = function() {
       $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'});
 
-      $http.post("https://idiscount.herokuapp.com/device/activate/"+$scope.uuid, {
+      $http.post("https://idiscount.herokuapp.com/device/activate/"+$scope.device.uuid, {
         activationCode: $scope.verifier.code
       })
       .then(
@@ -100,7 +105,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
           // Success! Barcode data is here
           $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'});           
             $http.post("https://idiscount.herokuapp.com/discount/verifyRedeem", {
-              uuid: $scope.uuid,
+              uuid: $scope.device.uuid,
               token: barcodeData.text,
               activation_token: $scope.verifier.token
             })

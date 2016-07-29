@@ -29,13 +29,13 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">ID: {{ uuid }}</h1>
+        <h1 class="title">ID: {{ device.uuid }}</h1>
       </ion-header-bar>
       <ion-pane>
         <div class="verifier-actions" ng-hide="verifier.activated">
           <div class="list list-inset">
             <label class="item item-input">
-              <input type="text" placeholder="Activation code" ng-model="verifier.code">
+              <input type="number" placeholder="Activation code" ng-model="verifier.code">
             </label>
             <button class="button button-block button-positive"
                 ng-click="activateDevice()">Activate
@@ -46,9 +46,15 @@
           <button class="button button-block button-positive"
                 ng-click="verifyQrCode()">
                   <i class="icon ion-qr-scanner"></i> Verify
-        </button>
+          </button>
         </div>
       </ion-pane>
+      <div class="bar bar-footer">
+        <button style="margin: 2px;" class="button button-block button-energized"
+                ng-click="reset()">
+                  <i class="icon ion-ios-reload"></i> Reset
+        </button>
+      </div>
     </ion-pane>
   </body>
 </html>
