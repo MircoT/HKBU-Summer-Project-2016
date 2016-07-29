@@ -51,11 +51,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
     $scope.uuid = "";
 
     if (localStorageService.get('verifier') === null) {
-      localStorageService.set('verifier', { activated: false, code: ""});
+      localStorageService.set('verifier', { activated: false, code: "", token: ""});
     }
 
     // DEBUG
-    // localStorageService.set('verifier', { activated: false, code: ""});
+    localStorageService.set('verifier', { activated: false, code: "", token: ""});
 
     $scope.unbindVerifier = localStorageService.bind($scope, 'verifier');
 
@@ -72,13 +72,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
       .then(
         function(response) {
           $scope.verifier.activated = true;
+          $scope.verifier.token = response.data;
           $ionicLoading.hide();
         },
         function(response) {
           $ionicLoading.hide().then(function() {
             $ionicPopup.alert({
               title: '<i class="icon ion-alert-circled"></i> Attention!',
-              template: response.data
+              template: response.data || "Something went wrong, try again"
             });
           });
         }
@@ -97,11 +98,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
         })
         .then(function(barcodeData) {
           // Success! Barcode data is here
-          $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'});
-          try {            
+          $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'});           
             $http.post("https://idiscount.herokuapp.com/discount/verifyRedeem", {
               uuid: $scope.uuid,
-              token: barcodeData.text
+              token: barcodeData.text,
+              activation_token: $scope.verifier.token
             })
             .then(
               function(response) {
@@ -121,16 +122,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
                 });
               }
             );
-          }
-          catch(err) {
-            $ionicLoading.hide().then(function() {
-              $ionicPopup.alert({
-                title: '<i class="icon ion-alert-circled"></i> Attention!',
-                template: 'Try to scan again the QrCode...'
-              });
-            });
-          }
-          
         }, function(error) {
           $ionicPopup.alert({
             title: '<i class="icon ion-alert-circled"></i> Attention!',
