@@ -155,9 +155,22 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
             null, null, false);
         }
 
-        if (ionic.Platform.isIOS()) $cordovaBeacon.requestAlwaysAuthorization();
-
-        if ($cordovaNetwork.isOnline()) {
+        if (!$cordovaNetwork.isOnline()) {
+          $ionicPopup.alert({
+            title: '<i class="icon ion-alert-circled"></i> Attention!',
+            template: 'An internet connection is required...'
+          });
+        }
+        else if (ionic.Platform.isIOS()) {
+          $cordovaBeacon.requestAlwaysAuthorization().then(function() {
+            $cordovaBeacon.startRangingBeaconsInRegion(beacon_region).then(function(result) {
+              $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'}).then(function() {
+                $timeout(callback, 4200);
+              });
+            });
+          });
+        }
+        else {
           $cordovaBeacon.isBluetoothEnabled().then(function(bluetoothActivated) {
             if (bluetoothActivated) {
               $cordovaBeacon.startRangingBeaconsInRegion(beacon_region).then(function(result) {
@@ -172,12 +185,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
                 template: 'Please enable bluetooth...'
               });
             }
-          });
-        }
-        else {
-          ionicPopup.alert({
-            title: '<i class="icon ion-alert-circled"></i> Attention!',
-            template: 'An internet connection is required...'
           });
         }
       })

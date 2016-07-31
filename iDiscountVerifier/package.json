@@ -25,5 +25,9 @@
   "cordovaPlatforms": [
     "android",
     "ios"
-  ]
+  ],
+  "scripts": {
+    "add_platform": "./resources/add_platform.sh",
+    "install_plugins": "./resources/install_plugins.sh"
+  }
 }

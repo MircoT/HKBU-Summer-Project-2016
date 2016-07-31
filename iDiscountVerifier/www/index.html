@@ -29,10 +29,11 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">ID: {{ device.uuid }}</h1>
+        <h1 class="title">Discount verifier</h1>
       </ion-header-bar>
       <ion-pane>
         <div class="verifier-actions" ng-hide="verifier.activated">
+          <p>Your device ID: {{ device.uuid }}</p>
           <div class="list list-inset">
             <label class="item item-input">
               <input type="number" placeholder="Activation code" ng-model="verifier.code">

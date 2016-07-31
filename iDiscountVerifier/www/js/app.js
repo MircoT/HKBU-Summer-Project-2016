@@ -60,7 +60,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
 
     $scope.reset = function() {
       $scope.verifier = { activated: false, code: "", token: ""};
-      $scope.$apply();
     };    
 
     $ionicPlatform.ready(function() {
