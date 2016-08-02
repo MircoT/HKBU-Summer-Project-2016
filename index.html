@@ -33,6 +33,48 @@
 					<h2>iDiscount</h2>
 					<p>An app that manages the discounts of one or more shops using QrCode and iBeacon.</p>
 				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>iDiscount - how it works</h3>
+					<p>
+						<img src="img/hiw_0.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - pay</h3>
+					<p>
+						<img src="img/hiw_1.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - activate the discount received</h3>
+					<p>
+						<img src="img/hiw_2.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - go in the target shop</h3>
+					<p>
+						<img src="img/hiw_3.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - redeem the code</h3>
+					<p>
+						<img src="img/hiw_4.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - show the QrCode</h3>
+					<p>
+						<img src="img/hiw_5.png" width="auto" height="480px"></img>
+					</p>
+				</section>
+				<section data-transition="fade-in fade-out" data-transitionSpeed="slow">
+					<h3>how it works - verification of the code</h3>
+					<p>
+						<img src="img/hiw_6.png" width="auto" height="480px"></img>
+					</p>
+				</section>
 				<section>
 					<h2>iDiscount - components</h2>
 					<p>
@@ -56,6 +98,49 @@
 							<li>Service: <a target="_blank" href="http://sailsjs.org/">Sails.js</a> with <a target="_blank" href="https://jwt.io/">JWT</a> and <a target="_blank" href="http://getbootstrap.com/">Bootstrap</a>. Also a little <a target="_blank" href="https://github.com/soldair/node-qrcode">module</a> to generate QrCode with NodeJS</li>
 							<li>Client app: <a target="_blank" href="http://ionicframework.com/">Ionic framework</a></li>
 							<li>Seller app: <a target="_blank" href="http://ionicframework.com/">Ionic framework</a></li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h2>iDiscount - service api</h2>
+					<p>
+						<ul>
+							<li>Device</li>
+							<li>Discount</li>
+							<li>Seller</li>
+							<li>Shop - No Access</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h2>service api - Device</h2>
+					<p>
+						<ul>
+							<li>index - GET (login required)</li>
+							<li>add - POST (login required)</li>
+							<li>delete - GET (login required)</li>
+							<li>activate - POST</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h2>service api - Discount</h2>
+					<p>
+						<ul>
+							<li>index - GET (login required)</li>
+							<li>create - POST (login required)</li>
+							<li>activate - POST</li>
+							<li>redeem - POST</li>
+							<li>verifyRedeem - POST</li>
+						</ul>
+					</p>
+				</section>
+				<section>
+					<h2>service api - Seller</h2>
+					<p>
+						<ul>
+							<li>index - No Access</li>
+							<li>login - GET, POST</li>
 						</ul>
 					</p>
 				</section>
