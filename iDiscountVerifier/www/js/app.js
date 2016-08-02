@@ -56,17 +56,24 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
       localStorageService.set('verifier', { activated: false, code: "", token: ""});
     }
 
+    // bind $scope.verifier object
     $scope.unbindVerifier = localStorageService.bind($scope, 'verifier');
 
+    // Reset the whole app
     $scope.reset = function() {
       $scope.verifier = { activated: false, code: "", token: ""};
     };    
 
+    // Update the device uuid when cordova is ready
     $ionicPlatform.ready(function() {
       $scope.device.uuid = $cordovaDevice.getUUID();
       $scope.$apply();
     });
     
+    /**
+     * @description Activate the device
+     * @return {undefined}
+     */
     $scope.activateDevice = function() {
       $ionicLoading.show({ template: '<ion-spinner icon="ios"></ion-spinner>'});
 
@@ -90,6 +97,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
       );
     };
 
+    /**
+     * @description Scan a QrCode and verify it
+     * @return {undefined}
+     */
     $scope.verifyQrCode = function() {
 
       $cordovaBarcodeScanner
@@ -133,5 +144,4 @@ angular.module('starter', ['ionic', 'ngCordova', 'LocalStorageModule'])
           });
         });
     };
-
 }]);
